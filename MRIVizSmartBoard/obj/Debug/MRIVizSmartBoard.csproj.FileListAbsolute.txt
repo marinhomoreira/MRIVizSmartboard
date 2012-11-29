@@ -1,0 +1,14 @@
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\bin\Debug\MRIVizSmartBoard.exe.config
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\bin\Debug\MRIVizSmartBoard.exe
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\bin\Debug\MRIVizSmartBoard.pdb
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\MRIVizSmartBoard.csprojResolveAssemblyReference.cache
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\MainWindow.baml
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\MainWindow.g.cs
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\App.g.cs
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\MRIVizSmartBoard_MarkupCompile.cache
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\MRIVizSmartBoard.g.resources
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\MRIVizSmartBoard.Properties.Resources.resources
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\MRIVizSmartBoard.csproj.GenerateResource.Cache
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\MRIVizSmartBoard.exe
+c:\users\marinho\documents\visual studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\obj\Debug\MRIVizSmartBoard.pdb
+C:\Users\Marinho\Documents\Visual Studio 2012\Projects\MRIVizSmartBoard\MRIVizSmartBoard\bin\Debug\GroupLab.iNetwork.dll

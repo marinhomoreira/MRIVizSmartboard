@@ -1,0 +1,9 @@
+﻿<Window x:Class="MRIVizSmartBoard.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>        
+        <Image Name="image" HorizontalAlignment="Left" VerticalAlignment="Top" Height="350" Width="350" />
+        <Slider Height="300" HorizontalAlignment="Right" x:Name="slider1" VerticalAlignment="Top" Width="30" Maximum="999" SmallChange="1" TickPlacement="TopLeft" Value="541" ValueChanged="slider_ValueChanged" Orientation="Vertical" />
+    </Grid>
+</Window>
