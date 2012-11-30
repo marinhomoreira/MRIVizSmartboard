@@ -27,15 +27,9 @@ namespace MRIVizSmartBoard
     public partial class MainWindow : Window
     {
 
-        // iNetworking initialization
-        private Connection _connection;
-        // Tablet ipAddress
-        private string _ipAddress = "10.11.19.165";
-        private int _port = 12345;
-
         public MainWindow()
         {
-            InitializeConnection();
+            InitializeServer();
 
             InitializeComponent();
             setImageOnDisplay(542);
@@ -46,7 +40,7 @@ namespace MRIVizSmartBoard
         {
             int slValue = (int)slider1.Value;
             setImageOnDisplay(slValue);
-            sendRequestWithImageIndex(slValue);
+            sendImageIndex(slValue);
         }
         #endregion
 
@@ -80,55 +74,104 @@ namespace MRIVizSmartBoard
         #endregion
 
 
+        private Server _server;
+        private List<Connection> _clients;
 
         #region iNetwork Methods
 
-        private void InitializeConnection()
+        public void InitializeServer()
         {
-            // connect to the server
-            this._connection = new Connection(this._ipAddress, this._port);
-            this._connection.Connected += new ConnectionEventHandler(OnConnected);
-            this._connection.Start();
+            this._clients = new List<Connection>();
+
+            // Create a new server, add name and port number
+            this._server = new Server("ServerName", 12345);
+            this._server.IsDiscoverable = true;
+            this._server.Connection += new ConnectionEventHandler(OnServerConnection);
+
+            this._server.Start();
+
+            // Display the server info on the label
+
+            //this.NetInfo.Content = "IP: " + this._server.Configuration.IPAddress.ToString() + ", Port: " + this._server.Configuration.Port.ToString();
         }
 
-        void OnConnected(object sender, ConnectionEventArgs e)
+
+        private void OnServerConnection(object sender, ConnectionEventArgs e)
         {
-            this._connection.MessageReceived += new ConnectionMessageEventHandler(OnMessageReceived);
+
+            if (e.ConnectionEvent == ConnectionEvents.Connect)
+            {
+                // new client connected
+                lock (this._clients)
+                {
+                    if (!(this._clients.Contains(e.Connection)))
+                    {
+                        this._clients.Add(e.Connection);
+                        e.Connection.MessageReceived += new ConnectionMessageEventHandler(OnMessageReceived);
+
+                        this.Dispatcher.Invoke(
+                            new Action(
+                                delegate()
+                                {
+                                    //this.clientList.Items.Add(e.Connection.ToString());
+                                }));
+                    }
+                }
+            }
+            else if (e.ConnectionEvent == ConnectionEvents.Disconnect)
+            {
+                // client disconnected
+                lock (this._clients)
+                {
+                    if (this._clients.Contains(e.Connection))
+                    {
+                        this._clients.Remove(e.Connection);
+                        e.Connection.MessageReceived -= new ConnectionMessageEventHandler(OnMessageReceived);
+
+                        this.Dispatcher.Invoke(
+                            new Action(
+                                delegate()
+                                {
+                                    //this.clientList.Items.Remove(e.Connection.ToString());
+                                }));
+                    }
+                }
+            }
         }
 
         private void OnMessageReceived(object sender, Message msg)
         {
-            try
-            {
-                if (msg != null)
-                {
-                    switch (msg.Name)
+            this.Dispatcher.Invoke(
+                new Action(
+                    delegate()
                     {
-                        default:
-                            // don't do anything
-                            break;
-                        case "Name-of-Message":
-                            // do something here
-                            break;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                System.Diagnostics.Debug.WriteLine(e.Message + "\n" + e.StackTrace);
-            }
-
+                        if (msg != null)
+                        {
+                            //this.messages.Text += msg.Name + "\n";
+                            switch (msg.Name)
+                            {
+                                default:
+                                    // don't do anything
+                                    break;
+                                // add cases with the message names
+                            }
+                        }
+                    }));
         }
 
-        private void sendRequestWithImageIndex(int slValue)
+        #endregion
+
+
+        private void sendImageIndex(int slValue)
         {
             // TODO MESSAGE
             Message msg = new Message("ChangeImg");
             msg.AddField("index", slValue);
-            this._connection.SendMessage(msg);
+            if (this._server != null)
+                this._server.BroadcastMessage(msg);
+            Console.WriteLine(msg.ToString() + ": " + msg.GetIntField("index"));
         }
 
-        #endregion
 
     }
 }
