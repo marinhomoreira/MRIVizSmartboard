@@ -1,9 +1,25 @@
 ﻿<Window x:Class="MRIVizSmartBoard.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>        
-        <Image Name="image" HorizontalAlignment="Left" VerticalAlignment="Top" Height="350" Width="350" />
-        <Slider Height="300" HorizontalAlignment="Right" x:Name="slider1" VerticalAlignment="Top" Width="30" Maximum="999" SmallChange="1" TickPlacement="TopLeft" Value="541" ValueChanged="slider_ValueChanged" Orientation="Vertical" />
+        Title="MainWindow" Height="750" Width="1300" WindowState="Maximized">
+    <Grid>
+        <TextBlock Text="Patient: John Doe" Height="36" Width="200" Margin="1066,54,12,621" />
+        <TextBlock Text="Date of Birth: 25/10/1957" Height="36" Width="200" Margin="1066,88,12,587" />
+        <TextBlock Text="Weight: 84 KG" Height="36" Width="200" Margin="1066,122,12,553" />
+        <TextBlock Text="Date of MRI: 30/07/2012" Height="36" Width="200" Margin="1067,156,11,519" />
+        <Canvas Height="676" Width="676" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Image Name="image" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="0" Canvas.Top="0" Height="1536">
+                <!--<Image.Clip>
+                    <RectangleGeometry Rect="0,0,676,676"></RectangleGeometry>
+                </Image.Clip>-->
+
+            </Image>
+        </Canvas>
+        <Canvas Width="400" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,11,483">
+            <Image Name="full" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="400" Source="MRIImages\full.jpg" Canvas.Left="-71" />
+        </Canvas>
+        <Slider Height="300" HorizontalAlignment="Right" x:Name="slider1" VerticalAlignment="Top" Width="30" Maximum="999" Minimum="541" SmallChange="1" TickPlacement="TopLeft" Value="541" ValueChanged="slider_ValueChanged" Orientation="Vertical" />
+        <Slider Height="300" x:Name="slider2" VerticalAlignment="Top" Width="30" Maximum="400" Minimum="-300" SmallChange="1" TickPlacement="TopLeft" Value="0" ValueChanged="slider2_ValueChanged" Orientation="Vertical" Margin="417,0,70,0" />
+        <Slider Height="300" x:Name="slider3" VerticalAlignment="Top" Width="30" Maximum="400" Minimum="-300" SmallChange="1" TickPlacement="TopLeft" Value="0" ValueChanged="slider3_ValueChanged" Orientation="Vertical" Margin="452,0,35,0" />
     </Grid>
 </Window>

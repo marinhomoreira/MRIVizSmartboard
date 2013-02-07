@@ -32,37 +32,53 @@ namespace MRIVizSmartBoard
             InitializeServer();
 
             InitializeComponent();
-            setImageOnDisplay(542);
+            setImageOnDisplay(542,0,0);
+            this.Closing += new System.ComponentModel.CancelEventHandler(OnClosing);
         }
+
+        int slValue = 0;
+        int sl2Value = 0;
+        int sl3Value = 0;
 
         #region mock stuff
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            int slValue = (int)slider1.Value;
-            setImageOnDisplay(slValue);
-            sendImageIndex(slValue);
+            this.slValue = (int)slider1.Value;
+            setImageOnDisplay(this.slValue, this.sl2Value, this.sl3Value);
+            sendImageIndex(this.slValue, this.sl2Value, this.sl3Value);
+        }
+        private void slider2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this.sl2Value = (int)slider2.Value;
+            setImageOnDisplay(this.slValue, this.sl2Value, this.sl3Value);
+            sendImageIndex(this.slValue, this.sl2Value, this.sl3Value);
+        }
+        private void slider3_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this.sl3Value = (int)slider3.Value;
+            setImageOnDisplay(this.slValue, this.sl2Value, this.sl3Value);
+            sendImageIndex(this.slValue, this.sl2Value, this.sl3Value);
         }
         #endregion
 
 
         #region Display-related functions
-        void setImageOnDisplay(int imageIndex)
+        void setImageOnDisplay(int imageIndex, int x, int y)
         {
             String imgUri = "MRIImages/IM-0001-0" + imageIndex + ".jpg";
 
             this.Dispatcher.Invoke(new Action(delegate()
             {
                 image.Source = new BitmapImage(new Uri(imgUri, UriKind.Relative));
+                image.SetValue(Canvas.LeftProperty, (double)x);
+                
+                image.SetValue(Canvas.TopProperty, (double)y);
             }));
         }
 
+
         int processCoordinates(double x, double y, double z)
         {
-            int leftBound = -1000;
-            int rightBound = 600;
-
-
-
             // Calculate the width of column in space [width in space divided by number of images]
             
             // Calculate the index of image = [position in space divided by calculated column's width]
@@ -89,10 +105,6 @@ namespace MRIVizSmartBoard
             this._server.Connection += new ConnectionEventHandler(OnServerConnection);
 
             this._server.Start();
-
-            // Display the server info on the label
-
-            //this.NetInfo.Content = "IP: " + this._server.Configuration.IPAddress.ToString() + ", Port: " + this._server.Configuration.Port.ToString();
         }
 
 
@@ -159,18 +171,31 @@ namespace MRIVizSmartBoard
                     }));
         }
 
+        void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            //Ensure that the server terminates when the window is closed.
+            if (this._server != null && this._server.IsRunning)
+            {
+                this._server.Stop();
+            }
+        }
+
         #endregion
 
 
-        private void sendImageIndex(int slValue)
+        private void sendImageIndex(int slValue, int x, int y)
         {
             // TODO MESSAGE
             Message msg = new Message("ChangeImg");
             msg.AddField("index", slValue);
+            msg.AddField("x", x);
+            msg.AddField("y", y);
             if (this._server != null)
                 this._server.BroadcastMessage(msg);
             Console.WriteLine(msg.ToString() + ": " + msg.GetIntField("index"));
         }
+
+
 
 
     }
